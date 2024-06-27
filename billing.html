@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BILLING SOFTWARE</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+</head>
+<body>
+       <center>
+        <h1>Bill</h1>
+        <table class="product-table">
+            <tr>      
+            <td class="product" >Product:</td>
+            <td><input type="text" class="productname" placeholder="Enter product Name" ></td>
+            
+          </tr>
+          <tr>
+            <td class="prize">Price:</td>
+            <td><input type="number" class="prizevalue" placeholder="Enter prize"></td>
+          </tr>
+          <tr>
+            <td class="quantity">Quantity:</td>
+            <td><input type="number" class="quantitynum" placeholder="No.Of.Quantity"></td>
+          </tr>
+          <tr> <td class="addbutton" colspan="2"><button onclick="addItem()">Add Item</button></td></tr>
+        </table>
+        <div class="printable">
+        <table class="bill-table">
+            <tr>
+                <th class="one">Product</th><th class="two">Price</th><th class="three">Quantity</th><th class="four">Total</th> <th class="five">Action</th>
+            </tr>
+
+        </table>
+        </div>
+        <h2> Total Bill:<span class="totalbill"> 0</span></h2>
+        <a href="index.html"><button class="homebutton">HOME</button></a>
+       </center>
+       <script>
+        function addItem()
+        {
+          var product= document.querySelector(".productname").value
+          var price= parseFloat(document.querySelector(".prizevalue").value)
+          var quantity= parseInt(document.querySelector(".quantitynum").value)
+          var table=document.querySelector(".bill-table")
+          var totalbill=document.querySelector(".totalbill")
+
+          var total= price*quantity
+        
+          var row= table.insertRow()
+          row.innerHTML = `
+                <td>${product}</td>
+                <td>${price.toFixed(2)}</td>
+                <td>${quantity}</td>
+                <td>${total.toFixed(2)}</td>
+                <td><button onclick="deleteItem(this)">Delete</button></td>
+            `;
+            updateTotalBill();
+        }
+
+        function deleteItem(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+            updateTotalBill();
+        }
+
+        function updateTotalBill() {
+            var totalBill = 0;
+            var rows = document.querySelectorAll(".bill-table tr:not(:first-child)");
+            rows.forEach(function(row) {
+                var totalCell = row.cells[3];
+                totalBill += parseFloat(totalCell.innerText);
+            });
+            document.querySelector(".totalbill").innerText = totalBill.toFixed(2);
+        }
+        </script>
+
+</body>
+</html>
